@@ -38,6 +38,31 @@ groupRouter.get("/", protect, async (req, res) => {
   }
 });
 
+//Jion a group
+groupRouter.post("/:groupId/join", protect, async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.groupId);
+    if (!group) {
+      return res.status(404).json({ message: "Group not found" });
+    }
+
+    // Check if user is already a member
+    if (group.members.includes(req.user._id)) {
+      return res
+        .status(400)
+        .json({ message: "Already a member of this group" });
+    }
+
+    // Add user to group
+    group.members.push(req.user._id);
+    await group.save();
+
+    res.json({ message: "Joined the group successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 // Get a specific group by ID
 groupRouter.get("/:id", protect, async (req, res) => {
   try {

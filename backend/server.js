@@ -6,6 +6,8 @@ const http = require("http");
 const socketio = require("socket.io");
 const userRouter = require("./routes/userRoutes");
 const groupRouter = require("./routes/groupRoutes");
+const messageRouter = require("./routes/messageRoutes");
+
 const socketIo = require("./socket");
 
 dotenv.config();
@@ -21,7 +23,7 @@ const io = socketio(server, {
   },
 });
 
-//Middlewwares
+//Middlewares
 app.use(cors());
 app.use(express.json());
 
@@ -41,6 +43,7 @@ socketIo(io);
 
 app.use("/api/users", userRouter);
 app.use("/api/groups", groupRouter);
+app.use("/api/messages", messageRouter);
 
 //Start the server
 const PORT = process.env.PORT || 5000;
