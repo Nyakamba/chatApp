@@ -63,10 +63,36 @@ groupRouter.post("/:groupId/join", protect, async (req, res) => {
   }
 });
 
-// Get a specific group by ID
-groupRouter.get("/:id", protect, async (req, res) => {
+// Leave a group
+groupRouter.post("/:groupId/leave", protect, async (req, res) => {
+  console.log("reqBody", req.body);
   try {
-    const group = await Group.findById(req.params.id)
+    const group = await Group.findById(req.params.groupId);
+    if (!group) {
+      return res.status(404).json({ message: "Group not found" });
+    }
+
+    // Check if user is a member
+    if (!group.members.includes(req.user._id)) {
+      return res.status(400).json({ message: "Not a member of this group" });
+    }
+
+    // Remove user from group members
+    group.members = group.members.filter(
+      (memberId) => memberId.toString() !== req.user._id.toString(),
+    );
+    await group.save();
+
+    res.json({ message: "Left the group successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+// Get a specific group by ID
+groupRouter.get("/:groupId", protect, async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.groupId)
       .populate("admin", "username email")
       .populate("members", "username email");
     if (group) {

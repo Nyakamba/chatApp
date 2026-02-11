@@ -7,6 +7,7 @@ const socketIo = (io) => {
     //Get user from authenticatiion
     const user = socket.handshake.auth.user;
     console.log("User Connected", user?.username);
+    console.log(user);
 
     //!START: Join room handler
     socket.on("join-room", (groupId) => {

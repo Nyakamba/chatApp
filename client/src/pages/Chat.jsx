@@ -1,15 +1,39 @@
+/* eslint-disable no-unused-vars */
 import { Box, Flex } from "@chakra-ui/react";
 import Sidebar from "../components/Sidebar";
 import ChatArea from "../components/ChatArea";
+import io, { Socket } from "socket.io-client";
+import { useEffect, useState } from "react";
+import { i } from "framer-motion/client";
+const ENDPOINT = "http://localhost:5000";
 
 const Chat = () => {
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [socket, setsocket] = useState(null);
+
+  useEffect(() => {
+    const userInfo = JSON.parse(localStorage.getItem("userInfo") || {});
+    const newSocket = io(ENDPOINT, {
+      auth: {
+        user: userInfo,
+      },
+    });
+    setsocket(newSocket);
+    return () => {
+      if (newSocket) {
+        newSocket.disconnect();
+      }
+    };
+  }, []);
+
+  // console.log("socket", socket);
   return (
     <Flex h="100vh">
       <Box w="300px" borderRight="1px solid" borderColor="gray.200">
-        <Sidebar />
+        <Sidebar setSelectedGroup={setSelectedGroup} />
       </Box>
       <Box flex="1">
-        <ChatArea />
+        {socket && <ChatArea selectedGroup={selectedGroup} socket={socket} />}
       </Box>
     </Flex>
   );
