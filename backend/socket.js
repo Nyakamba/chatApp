@@ -69,7 +69,7 @@ const socketIo = (io) => {
         //Remove user from connectedUsers map
         connectedUsers.delete(socket.id);
         //Broadcast to other clients in the room that a user has left
-        socket.to(room).emit("user-eft", user?._id);
+        socket.to(room).emit("user-left", user?._id);
         // //Emit updated user list to all clients in the room
         // const usersInRoom = Array.from(connectedUsers.values())
         //   .filter((u) => u.room === room)
@@ -83,13 +83,13 @@ const socketIo = (io) => {
     //Triggered when a user starts typing
     socket.on("typing", ({ groupId, username }) => {
       //Broadcast to other clients in the room that a user is typing
-      socket.to(groupId).emit("user-typing", { username });
+      socket.to(groupId).emit("user-typing", username);
     });
 
     //Triggered when a user stops typing
-    socket.on("stop-typing", (groupId) => {
+    socket.on("stop-typing", ({ groupId, username }) => {
       //Broadcast to other clients in the room that a user has stopped typing
-      socket.to(groupId).emit("user-stop-typing", { username: user?.username });
+      socket.to(groupId).emit("user-stop-typing", username);
     });
     //!END: Typing Indicator Handler
   });
