@@ -26,7 +26,6 @@ const Login = () => {
 
   //Handle submit
   const handleSubmit = async (e) => {
-    console.log("e", e);
     e.preventDefault();
     setLoading(true);
     try {

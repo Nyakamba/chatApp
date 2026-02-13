@@ -4,8 +4,7 @@ import Sidebar from "../components/Sidebar";
 import ChatArea from "../components/ChatArea";
 import io, { Socket } from "socket.io-client";
 import { useEffect, useState } from "react";
-const ENDPOINT = "http://localhost:5000";
-
+const ENDPOINT = import.meta.env.VITE_API_URL;
 const Chat = () => {
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [socket, setsocket] = useState(null);
