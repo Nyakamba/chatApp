@@ -19,6 +19,7 @@ import { FiSend, FiInfo, FiMessageCircle } from "react-icons/fi";
 import UsersList from "./UsersList";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import apiUrl from "../utils/apiUrl";
 
 const ChatArea = ({ selectedGroup, socket }) => {
   const [newMessage, setNewMessage] = useState("");
@@ -93,7 +94,7 @@ const ChatArea = ({ selectedGroup, socket }) => {
       const token = currentUser?.token;
 
       const { data } = await axios.get(
-        `http://localhost:5000/api/messages/${selectedGroup?._id}`,
+        `${apiUrl}/messages/${selectedGroup?._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -119,7 +120,7 @@ const ChatArea = ({ selectedGroup, socket }) => {
     try {
       const token = currentUser?.token;
       const { data } = await axios.post(
-        `http://localhost:5000/api/messages`,
+        `${apiUrl}/messages`,
         {
           groupId: selectedGroup?._id,
           content: newMessage,
@@ -172,7 +173,6 @@ const ChatArea = ({ selectedGroup, socket }) => {
       }, 2000);
     }
   };
-
   //format time
   const formatTime = (date) => {
     return new Date(date).toLocaleTimeString("en-US", {
@@ -181,7 +181,6 @@ const ChatArea = ({ selectedGroup, socket }) => {
     });
   };
   //render typing indicator
-  console.log("messages", messages);
   const renderTypingIndicator = () => {
     if (typingUsers?.size > 0) {
       const typingUsersArray = Array.from(typingUsers);

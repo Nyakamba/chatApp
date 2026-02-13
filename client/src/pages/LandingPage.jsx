@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   Box,
   Button,
@@ -135,7 +136,7 @@ export default function LandingPage() {
                   zIndex: -1,
                 }}
               >
-                MasynTech
+                Omwega
               </Text>
               <br />
               <Text as="span" color="blue.400">

@@ -4,7 +4,6 @@ import Sidebar from "../components/Sidebar";
 import ChatArea from "../components/ChatArea";
 import io, { Socket } from "socket.io-client";
 import { useEffect, useState } from "react";
-import { i } from "framer-motion/client";
 const ENDPOINT = "http://localhost:5000";
 
 const Chat = () => {

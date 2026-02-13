@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import apiUrl from "../utils/apiUrl";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -26,14 +27,11 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/users/register",
-        {
-          email,
-          password,
-          username,
-        },
-      );
+      const { data } = await axios.post(`${apiUrl}/users/register`, {
+        email,
+        password,
+        username,
+      });
       console.log("data", data);
       toast({
         title: "Login successful",

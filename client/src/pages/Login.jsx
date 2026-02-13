@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Box,
   Button,
@@ -12,6 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FiLogIn } from "react-icons/fi";
 import { useState } from "react";
 import axios from "axios";
+import apiUrl from "../utils/apiUrl";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,19 +22,18 @@ const Login = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
+  console.log("apiUrl", apiUrl);
+
   //Handle submit
   const handleSubmit = async (e) => {
     console.log("e", e);
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/api/users/login",
-        {
-          email,
-          password,
-        },
-      );
+      const { data } = await axios.post(`${apiUrl}/users/login`, {
+        email,
+        password,
+      });
       localStorage.setItem("userInfo", JSON.stringify(data?.user));
       toast({
         title: "Login successful",
