@@ -135,7 +135,8 @@ const ChatArea = ({ selectedGroup, socket }) => {
         ...data,
         groupId: selectedGroup?._id,
       });
-      setMessages([...messages, data]);
+      console.log("data", data);
+      setMessages([...messages, data?.message]);
       setNewMessage("");
     } catch (error) {
       console.log(error);
@@ -148,9 +149,9 @@ const ChatArea = ({ selectedGroup, socket }) => {
       });
     }
   };
+  console.log("messages", messages);
   //handleTyping
   const handleTyping = (e) => {
-    console.log("event", e);
     setNewMessage(e.target.value);
     if (!isTyping && selectedGroup) {
       setIsTyping(true);
@@ -209,7 +210,7 @@ const ChatArea = ({ selectedGroup, socket }) => {
                       You are typing
                     </Text>
                     <Flex gap={1}>
-                      {[1, 2, 3].map((dot) => (
+                      {[1, 2, 3, 4].map((dot) => (
                         <Box
                           key={dot}
                           w="3px"
@@ -223,18 +224,19 @@ const ChatArea = ({ selectedGroup, socket }) => {
                 </>
               ) : (
                 <>
-                  <Flex gap={1}>
+                  <Flex gap={1} align="center">
                     <Text fontSize="sm" color="gray.500" fontStyle="italic">
                       {username} is typing
                     </Text>
                     <Flex gap={1}>
-                      {[1, 2, 3].map((dot) => (
+                      {[1, 2, 3, 4].map((dot) => (
                         <Box
                           key={dot}
-                          w="3px"
-                          h="3px"
+                          w="2px"
+                          h="2px"
                           borderRadius="full"
                           bg="gray.500"
+                          align="center"
                         ></Box>
                       ))}
                     </Flex>
